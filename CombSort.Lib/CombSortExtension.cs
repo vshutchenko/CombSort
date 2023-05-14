@@ -1,4 +1,6 @@
-﻿namespace CombSort.Lib;
+﻿using System;
+
+namespace CombSort.Lib;
 
 public static class CombSortExtension
 {
@@ -11,34 +13,19 @@ public static class CombSortExtension
     private static IList<T> Sort<T>(IList<T> list)
         where T : IComparable<T>
     {
-        int n = list.Count;
-        int gap = n;
-        bool swapped = true;
-
-        while (gap > 1 || swapped)
+        var gap = (int)(list.Count / 1.247);
+        while (gap > 0)
         {
-            gap = (int)(gap / 1.3);
-
-            if (gap < 1)
-            {
-                gap = 1;
-            }
-
-            int i = 0;
-            swapped = false;
-
-            while (i + gap < n)
+            for (var i = 0; i + gap < list.Count; i++)
             {
                 if (list[i].CompareTo(list[i + gap]) > 0)
                 {
-                    var temp = list[i];
-                    list[i] = list[i + gap];
-                    list[i + gap] = temp;
-                    swapped = true;
+                    var temp = list[i + gap];
+                    list[i + gap] = list[i];
+                    list[i] = temp;
                 }
-
-                i++;
             }
+            gap = (int)(gap / 1.247);
         }
 
         return list;
